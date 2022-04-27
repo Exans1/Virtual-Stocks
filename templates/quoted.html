@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Stock Quoted
+{% endblock %}
+
+
+{% block main %}
+<form action="/quote" method="post">
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="symbol" name="symbol" placeholder="stock symbol" type="text">
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+    {% if invalid %}
+    <div class="alert alert-warning" role="alert" > The input symbol {{symbol}} is invalid </div>
+    {% endif %}
+</form>
+<h2>Search Result</h2>
+    <table style='margin-top: 30px' class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th scope="col"> Symbol </th>
+            <th scope="col"> Company Name </th>
+            <th scope="col"> Price (USD) </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">     {{ symbol }} </th>
+            <td>  {{ name }}  </td>
+            <td>  {{ price}}</td>
+        </tr>
+    </body>
+    </table>
+
+<!--home-->
+    <h1>Current Portfolio</h1>
+    <table style='margin-top: 30px' class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col"> Symbol </th>
+            <th scope="col"> Company Name </th>
+            <th scope="col"> Shares </th>
+            <th scope="col"> Current Price (USD) </th>
+            <th scope="col"> Total Value (USD) </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for symbol, values in owns.items() %}
+          <tr>
+            <th scope="row"> {{ symbol }} </th>
+            <td>  {{ values[0] }}  </td>
+            <td>  {{ values[1] }}  </td>
+            <td>  {{ values[2] }}  </td>
+            <td>  {{ values[3] }}  </td>
+          </tr>
+          {% endfor %}
+          <tr class='bg-success'>
+              <th scope='row' colspan='4'> Remaining Cash </th>
+              <td> {{cash}} </td>
+          </tr>
+          <tr class='bg-primary'>
+              <th scope='row' colspan='4'> TOTAL BALANCE </th>
+              <td> {{total}} </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    <!-- Buy function-->
+    <h6>buy</h6>
+    <form action="/buy" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="symbol" name="symbol" placeholder="stock symbol" type="text">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="shares"name="shares" placeholder="# shares" type="number" min="1">
+        </div>
+        <button class="btn btn-primary" type="submit">Buy</button>
+        {% if invalid1 %}
+        <div class="alert alert-warning" role="alert" > Stock symbol {{symbol}} not found </div>
+        {% endif %}
+        {% if invalids %}
+        <div class="alert alert-warning" role="alert" >{{symbol}}</div>
+        {% endif %}
+        {% if nomoney %}
+        <div class="alert alert-warning" role="alert" > Not enough funds! You have {{cash}} and {{shares}} shares of {{symbol}} is {{amount}}. You are {{remain}} short. </div>
+        {% endif %}
+    </form>
+<!--sell function-->
+    <h6>sell</h6>
+    <form action="/sell" method="post">
+        <div class="mb-3">
+            <select required name="symbol" autofocus class="form-control mx-auto w-auto">
+              <option value="" class="form-control mx-auto w-auto" > Available stocks </option>
+
+              {% for symbol in owns %}
+              <option value={{symbol}} class="form-control mx-auto w-auto" > {{symbol}} </option>
+              {% endfor %}
+            </select>
+            <input required autofocus class="form-control mx-auto w-auto" name="shares" placeholder="# shares" type="number" min="1">
+        </div>
+        <button class="btn btn-primary" type="submit">Sell</button>
+
+        {% if invalid2 %}
+        <!--TODO: ALERT: insufficient share quantity to sell-->
+        <div class="alert alert-warning" role="alert" > "Insufficient {{symbol}} Shares. You Currently Own {{shares}} {{symbol}} Shares." </div>
+        {% endif %}
+    </form>
+{% endblock %}

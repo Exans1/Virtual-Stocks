@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form action="/setting" method="post">
+        <P>Hello, {{name}}</P>
+        <p>User ID: {{username}}</p>
+        <p style="height: 50px"></p>
+        <p></p>
+        <h6>What would you like to change</h5>
+        <select required name="change" autofocus class="form-control mx-auto w-auto">
+            <option value="" class="form-control mx-auto w-auto" > Make a Selection </option>
+            <option value=username class="form-control mx-auto w-auto" > User ID </option>
+            <option value=password class="form-control mx-auto w-auto" > Password </option>
+            <option value=email class="form-control mx-auto w-auto" > e-mail </option>
+          </select>
+          <p></p>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="cp" name="cp" placeholder="Current Password" type="text">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="new" name="new" placeholder="New Value" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Change</button>
+    </form>
+    {% if invalid %}
+    <!--TODO: ALERT: insufficient share quantity to sell-->
+    <div class="alert alert-warning" role="alert" > You must make a selection. </div>
+    {% endif %}
+
+    {% if invalids %}
+    <!--TODO: ALERT: insufficient share quantity to sell-->
+    <div class="alert alert-warning" role="alert" > You cannot change to an empty value. </div>
+    {% endif %}
+    {% if invalids1 %}
+    <!--TODO: ALERT: insufficient share quantity to sell-->
+    <div class="alert alert-warning" role="alert" > This {{txt}} is taken. </div>
+    {% endif %}
+    {% if invalids2 %}
+    <!--TODO: ALERT: insufficient share quantity to sell-->
+    <div class="alert alert-warning" role="alert" > Incorrect password. </div>
+    {% endif %}
+
+{% endblock %}

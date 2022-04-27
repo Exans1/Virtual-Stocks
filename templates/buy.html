@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy Stocks
+{% endblock %}
+
+{% block main %}
+    <form action="/buy" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="symbol" name="symbol" placeholder="stock symbol" type="text">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="shares"name="shares" placeholder="# shares" type="number" min="1">
+        </div>
+        <button class="btn btn-primary" type="submit">Buy</button>
+        {% if invalid1 %}
+        <div class="alert alert-warning" role="alert" > Stock symbol {{symbol}} not found </div>
+        {% endif %}
+        {% if invalids %}
+        <div class="alert alert-warning" role="alert" >{{symbol}}</div>
+        {% endif %}
+        {% if nomoney %}
+        <div class="alert alert-warning" role="alert" > Not enough funds! You have {{cash}} and {{shares}} shares of {{symbol}} is {{amount}}. You are {{remain}} short. </div>
+        {% endif %}
+    </form>
+{% endblock %}

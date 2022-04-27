@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form action="/login" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
+        </div>
+        <button class="btn btn-primary" type="submit">Log In</button>
+    </form>
+    {% if invalid %}
+        <!--TODO: ALERT: insufficient share quantity to sell-->
+        <div class="alert alert-warning" role="alert" > "Incorrect {{symbol}}!" </div>
+    {% endif %}
+
+    {% if invalids %}
+        <!--TODO: ALERT: insufficient share quantity to sell-->
+        <div class="alert alert-warning" role="alert" > "{{symbol}} is required!" </div>
+    {% endif %}
+{% endblock %}
